@@ -10,7 +10,7 @@
 (define lambda-calculus-lexer
   (lexer-srcloc
    ["\n" (token 'NEWLINE lexeme)]
-   [(from/stop-before ";" "\n") (token lexeme #:skip? #t)]
+   [(from/to ";" "\n") (token lexeme #:skip? #t)]
    [whitespace (token lexeme #:skip? #t)]
    [digits (token 'NUM (string->number lexeme))]
    [reserved-terms (token lexeme lexeme)]
