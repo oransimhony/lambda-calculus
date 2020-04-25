@@ -1,4 +1,3 @@
 #lang lambda-calculus
 ; that's a comment
-(λt.(λf.t))(1)(0)
-(λx.x)(1231)
+(λx. λy. x) (λx. 10) (λx. x) 20

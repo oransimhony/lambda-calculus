@@ -1,7 +1,8 @@
 #lang brag
 program      : [line] (/NEWLINE [line])*
 line         : application
-application  : lambda-func /"(" NUM* /")" | application /"(" NUM* /")"
-lambda-func  : /"(" /"λ" (var)* /"." expr /")"
-@expr        : IDENT | NUM | lambda-func
+application  : callable term
+abstraction  : /"(" /"λ" var /"." term /")" | /"λ" var /"." term
+@term        : IDENT | NUM | abstraction
 @var         : IDENT
+@callable    : abstraction | application
