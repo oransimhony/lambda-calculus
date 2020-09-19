@@ -1,24 +1,40 @@
 #lang br/quicklang
 
-(define-macro (lc-module-begin (program LINE ...))
+;; Taken from https://stackoverflow.com/questions/20076868/how-to-know-whether-a-racket-variable-is-defined-or-not
+(define-syntax (if-defined stx)
+  (syntax-case stx ()
+    [(_ id iftrue iffalse)
+     (let ([where (identifier-binding #'id)])
+       (if where
+           (begin
+             #'iftrue)
+           (begin
+             #'iffalse)))]))
+
+(define-macro (lc-module-begin (lc-program LINE ...))
   #'(#%module-begin
      LINE ...))
 (provide (rename-out [lc-module-begin #%module-begin]))
 
-(define-macro (abstraction VAR EXPR)
-  #'(λ (VAR) EXPR))
-(provide abstraction)
-
-(define-macro (application FUNC VAL)
-  #'(FUNC VAL))
-(provide application)
-
-(define-macro (num NUM)
+(define-macro (lc-definition IDENT ABSTRACTION)
   #'(begin
-      (displayln NUM)
-      (NUM)))
-(provide num)
+      (if-defined IDENT
+        (set! IDENT ABSTRACTION)
+        (define IDENT ABSTRACTION))))
+(provide lc-definition)
 
-(define-macro (line CONTENT)
-  #'(displayln CONTENT))
-(provide line)
+(define-macro (lc-abstraction VAR EXPR)
+  #'(λ (VAR) EXPR))
+(provide lc-abstraction)
+
+(define-macro (lc-application FUNC VAL)
+  #'(FUNC VAL))
+(provide lc-application)
+
+(define-macro (lc-num NUM)
+  #'NUM)
+(provide lc-num)
+
+(define-macro (lc-line CONTENT)
+  #'CONTENT)
+(provide lc-line)
