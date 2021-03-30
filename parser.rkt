@@ -8,6 +8,6 @@ lc-expr         : lc-application | lc-definition
 
 @lc-abstraction-i : /lc-lambda lc-var /"." lc-term
 @lc-lambda        : "λ" | "lambda"
-@lc-term          : IDENT | NUM | lc-abstraction
+@lc-term          : IDENT | NUM | lc-abstraction | lc-application
 @lc-var           : IDENT
 @lc-callable      : lc-abstraction | lc-application | lc-var
